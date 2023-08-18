@@ -1,0 +1,26 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: default
+  labels:
+    dashboards: "my-grafana-instance"
+spec:
+  config:
+    auth:
+      disable_login_form: "false"
+    security:
+      admin_user: root
+      admin_password: root
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              image: grafana/grafana:10.0.0
+              securityContext:
+                allowPrivilegeEscalation: true
+                readOnlyRootFilesystem: false
+              readinessProbe:
+                failureThreshold: 3
